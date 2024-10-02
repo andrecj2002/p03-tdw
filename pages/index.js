@@ -40,6 +40,14 @@ export default function Home() {
               Get started by editing <code>pages/index.js</code>.
             </li>
             <li>Save and see your changes instantly.</li>
+            <li> Teste de prettier</li>
+            <li>mais um teste </li>
+            <li> Teste de prettier</li>
+            <li>maais um teste </li>
+            <li> Teste de prettier</li>
+            <li>maais um teste </li>
+            <li> Teste de prettier</li>
+            <li>maais um teste </li>
           </ol>
 
           <div className={styles.ctas}>
