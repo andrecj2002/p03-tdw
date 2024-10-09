@@ -1,27 +1,16 @@
-# Nome que queremos dar ao workflow
 name: pipeline_TDW-02
 
-# Eventos que irão disparar o workflow
 on:
   push:
     branches:
-      - '**'  # Dispara o workflow em pushs para todas as branches
+      - '**'  
   pull_request:
     branches:
-      - '**'  # Dispara o workflow em pull requests para todas as branches
+      - '**'  
 
-# Definição dos jobs que serão executados
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3  # Faz o checkout do código do repositório
-
   install_dependencies:
     runs-on: ubuntu-latest
-    needs: build  # Este job espera o job "build" ser completado
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -31,12 +20,20 @@ jobs:
       with:
         node-version: '18'
 
+    - name: Cache node modules
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
     - name: Install dependencies
       run: npm install
 
   run_tests:
     runs-on: ubuntu-latest
-    needs: install_dependencies  # Este job espera o job "install_dependencies" ser completado
+    needs: install_dependencies  
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -46,7 +43,7 @@ jobs:
 
   build_project:
     runs-on: ubuntu-latest
-    needs: install_dependencies  # Este job também espera o job "install_dependencies" ser completado
+    needs: install_dependencies  
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
