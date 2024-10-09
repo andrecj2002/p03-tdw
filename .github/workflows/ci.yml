@@ -66,3 +66,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+
+      # Instalar o Next.js (caso não esteja no package.json)
+      - name: Install Next.js
+        run: npm install next
+
+      # Comando de build para construir o projeto
+      - name: Build project
+        run: npm run build
