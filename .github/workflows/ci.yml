@@ -1,55 +1,36 @@
-# Nome que queremos dar ao workflow
 name: pipeline_TDW-02
 
-# Eventos que irão disparar o workflow
+# Trigger on push or pull requests to any branch
 on:
   push:
     branches:
-      - '**'  # Dispara o workflow em pushs para todas as branches
+      - '**'
   pull_request:
     branches:
-      - '**'  # Dispara o workflow em pull requests para todas as branches
+      - '**'
 
-# Definição dos jobs que serão executados
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3  # Faz o checkout do código do repositório
-
-  install_dependencies:
-    runs-on: ubuntu-latest
-    needs: build  # Este job espera o job "build" ser completado
-    steps:
+    # Step 1: Checkout the repository code
     - name: Checkout code
       uses: actions/checkout@v3
-
+    
+    # Step 2: Setup Node.js environment with the specified version (18.x)
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '18'
 
+    # Step 3: Ensure clean installation of dependencies using npm ci
     - name: Install dependencies
-      run: npm install
+      run: npm ci  # Cleans and installs all dependencies based on package-lock.json
 
-  run_tests:
-    runs-on: ubuntu-latest
-    needs: install_dependencies  # Este job espera o job "install_dependencies" ser completado
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
+    # Step 4: Run the tests
     - name: Run tests
-      run: npm test
+      run: npm test  # Assumes tests are defined in package.json scripts
 
-  build_project:
-    runs-on: ubuntu-latest
-    needs: install_dependencies  # Este job também espera o job "install_dependencies" ser completado
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
+    # Step 5: Build the project
     - name: Build project
-      run: npm run build
+      run: npm run build  # Ensures the Next.js build command runs
