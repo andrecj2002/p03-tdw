@@ -5,41 +5,51 @@ name: pipeline_TDW-02
 on:
   push:
     branches:
-      - main  # Dispara o workflow em pushs para a branch main
+      - '**'  # Dispara o workflow em pushs para todas as branches
   pull_request:
     branches:
-      - main  # Dispara o workflow em pull requests para a branch main
+      - '**'  # Dispara o workflow em pull requests para todas as branches
 
 # Definição dos jobs que serão executados
 jobs:
   build:
-
-    # O job será executado em um runner com Ubuntu
     runs-on: ubuntu-latest
 
     steps:
-    # Passos que serão executados no job
     - name: Checkout code
       uses: actions/checkout@v3  # Faz o checkout do código do repositório
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3  # Configura o Node.js no runner
-      with:
-        node-version: '18'  # Define a versão do Node.js a ser usada
+  install_dependencies:
+    runs-on: ubuntu-latest
+    needs: build  # Este job espera o job "build" ser completado
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-    - name: Cache Node.js modules
-      uses: actions/cache@v3
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
       with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
+        node-version: '18'
 
     - name: Install dependencies
-      run: npm install  # Instala as dependências do projeto
+      run: npm install
+
+  run_tests:
+    runs-on: ubuntu-latest
+    needs: install_dependencies  # Este job espera o job "install_dependencies" ser completado
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Run tests
-      run: npm test  # Executa os testes do projeto
+      run: npm test
+
+  build_project:
+    runs-on: ubuntu-latest
+    needs: install_dependencies  # Este job também espera o job "install_dependencies" ser completado
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
     - name: Build project
-      run: npm run build  # Constrói o projeto
+      run: npm run build
