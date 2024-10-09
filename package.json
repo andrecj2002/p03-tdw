@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "webpack --config webpack.config.js",  // Exemplo de um build script
+    "build": "webpack --config webpack.config.js",
     "start": "next start",
     "lint": "next lint",
     "prettier": "prettier --write \"src/*/*.{js,jsx,ts,tsx}\"",
