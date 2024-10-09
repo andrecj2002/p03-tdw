@@ -31,7 +31,6 @@ jobs:
       # Instalar todas as dependências
       - name: Install dependencies
         run: npm install
-        working-directory: ./P03
 
   run-tests:
     name: Run Tests
@@ -49,12 +48,10 @@ jobs:
       # Instalar Jest
       - name: Install Jest
         run: npm install jest
-        working-directory: ./P03
 
       # Correr todos os testes automáticos
       - name: Run tests
         run: npm test -- -u 
-        working-directory: ./P03
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
