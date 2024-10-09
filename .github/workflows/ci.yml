@@ -49,12 +49,12 @@ jobs:
       # Instalar Jest
       - name: Install Jest
         run: npm install jest
-        working-directory: ./aula_02-10
+        working-directory: ./P03
 
       # Correr todos os testes automáticos
       - name: Run tests
         run: npm test -- -u 
-        working-directory: ./aula_02-10
+        working-directory: ./P03
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
