@@ -2,14 +2,16 @@
   "name": "p03",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "webpack --config webpack.config.js",
-    "start": "next start",
-    "lint": "next lint",
-    "prettier": "prettier --write \"src/*/*.{js,jsx,ts,tsx}\"",
-    "test": "jest"
-  },
+
+  {
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build", 
+      "lint": "next lint",
+      "prettier": "prettier --write \"src/*/*.{js,jsx,ts,tsx}\"",
+      "test": "jest"
+    }
+  }
   "dependencies": {
     "next": "14.2.14",
     "react": "^18",
