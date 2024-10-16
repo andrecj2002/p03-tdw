@@ -1,4 +1,3 @@
-// mudar depois
 import React from 'react';
 
 const Home = () => {
